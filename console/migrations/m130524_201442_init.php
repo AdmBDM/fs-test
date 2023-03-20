@@ -19,7 +19,7 @@ class m130524_201442_init extends Migration
             'password_hash' => $this->string()->notNull(),
             'password_reset_token' => $this->string()->unique(),
             'email' => $this->string()->notNull()->unique(),
-			'is_stuff' => $this->boolean()->defaultValue(false)->notNull(),
+			'is_staff' => $this->boolean()->defaultValue(false)->notNull(),
 			'is_admin' => $this->boolean()->defaultValue(false)->notNull(),
 			'is_manager' => $this->boolean()->defaultValue(false)->notNull(),
             'status' => $this->smallInteger()->notNull()->defaultValue(10),

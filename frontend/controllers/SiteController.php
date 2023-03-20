@@ -6,6 +6,7 @@ use frontend\models\ResendVerificationEmailForm;
 use frontend\models\VerifyEmailForm;
 use Yii;
 use yii\base\InvalidArgumentException;
+use yii\captcha\CaptchaAction;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -15,15 +16,17 @@ use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
+use yii\web\ErrorAction;
+use yii\web\Response;
 
 /**
  * Site controller
  */
 class SiteController extends Controller
 {
-    /**
-     * {@inheritdoc}
-     */
+	/**
+	 * @return array[]
+	 */
     public function behaviors()
     {
         return [
@@ -52,17 +55,17 @@ class SiteController extends Controller
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
+	/**
+	 * @return array
+	 */
     public function actions()
     {
         return [
             'error' => [
-                'class' => \yii\web\ErrorAction::class,
+                'class' => ErrorAction::class,
             ],
             'captcha' => [
-                'class' => \yii\captcha\CaptchaAction::class,
+                'class' => CaptchaAction::class,
                 'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
             ],
         ];
@@ -71,8 +74,8 @@ class SiteController extends Controller
     /**
      * Displays homepage.
      *
-     * @return mixed
-     */
+	 * @return string
+	 */
     public function actionIndex()
     {
         return $this->render('index');
@@ -81,8 +84,8 @@ class SiteController extends Controller
     /**
      * Logs in a user.
      *
-     * @return mixed
-     */
+	 * @return string|Response
+	 */
     public function actionLogin()
     {
         if (!Yii::$app->user->isGuest) {
@@ -104,8 +107,8 @@ class SiteController extends Controller
     /**
      * Logs out the current user.
      *
-     * @return mixed
-     */
+	 * @return Response
+	 */
     public function actionLogout()
     {
         Yii::$app->user->logout();
@@ -116,8 +119,8 @@ class SiteController extends Controller
     /**
      * Displays contact page.
      *
-     * @return mixed
-     */
+	 * @return string|Response
+	 */
     public function actionContact()
     {
         $model = new ContactForm();
@@ -139,8 +142,8 @@ class SiteController extends Controller
     /**
      * Displays about page.
      *
-     * @return mixed
-     */
+	 * @return string
+	 */
     public function actionAbout()
     {
         return $this->render('about');
@@ -149,8 +152,8 @@ class SiteController extends Controller
     /**
      * Signs user up.
      *
-     * @return mixed
-     */
+	 * @return string|Response
+	 */
     public function actionSignup()
     {
         $model = new SignupForm();
@@ -167,8 +170,8 @@ class SiteController extends Controller
     /**
      * Requests password reset.
      *
-     * @return mixed
-     */
+	 * @return string|Response
+	 */
     public function actionRequestPasswordReset()
     {
         $model = new PasswordResetRequestForm();
@@ -218,7 +221,7 @@ class SiteController extends Controller
      *
      * @param string $token
      * @throws BadRequestHttpException
-     * @return yii\web\Response
+     * @return Response
      */
     public function actionVerifyEmail($token)
     {
@@ -239,8 +242,8 @@ class SiteController extends Controller
     /**
      * Resend verification email
      *
-     * @return mixed
-     */
+	 * @return string|Response
+	 */
     public function actionResendVerificationEmail()
     {
         $model = new ResendVerificationEmailForm();

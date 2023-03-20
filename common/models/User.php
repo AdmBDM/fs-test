@@ -61,6 +61,29 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
 	/**
+	 * @return string[]
+	 */
+	public function attributeLabels()
+	{
+		return [
+				'id' => 'ID',
+				'username' => 'Имя',
+				'password_hash' => 'hash',
+				'password_reset_token' => 'token',
+				'verification_token' => 'контрольный',
+				'email' => 'E-mail',
+				'auth_key' => 'токен',
+				'is_staff' => 'Сотрудник',
+				'is_admin' => 'Администратор',
+				'is_manager' => 'Менеджер',
+				'status' => 'Статус',
+				'created_at' => 'created_at',
+				'updated_at' => 'updated_at',
+		];
+	}
+
+
+	/**
 	 * @param $id
 	 *
 	 * @return User|IdentityInterface|null
