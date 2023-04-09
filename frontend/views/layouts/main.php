@@ -39,9 +39,7 @@ AppAsset::register($this);
         ['label' => 'О нас', 'url' => ['/site/about']],
         ['label' => 'Контакты', 'url' => ['/site/contact']],
     ];
-    if (Yii::$app->user->isGuest) {
-        $menuItems[] = ['label' => 'Регистрация', 'url' => ['/site/signup']];
-    }
+	if (Yii::$app->user->identity->is_manager) $menuItems[] = ['label' => 'АРМ Менеджера', 'url' => ['/visit']];
 
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav me-auto mb-2 mb-md-0'],

@@ -29,21 +29,22 @@ class User extends ActiveRecord implements IdentityInterface
     const STATUS_DELETED = 0;
     const STATUS_INACTIVE = 9;
     const STATUS_ACTIVE = 10;
+	const FORMAT_DATE = 'Y-m-d H:i:s';
 
 
 	/**
 	 * @return string
 	 */
-    public static function tableName()
-    {
+    public static function tableName(): string
+	{
         return '{{%user}}';
     }
 
 	/**
 	 * @return string[]
 	 */
-    public function behaviors()
-    {
+    public function behaviors(): array
+	{
         return [
             TimestampBehavior::class,
         ];
@@ -52,8 +53,8 @@ class User extends ActiveRecord implements IdentityInterface
 	/**
 	 * @return array[]
 	 */
-    public function rules()
-    {
+    public function rules(): array
+	{
         return [
             ['status', 'default', 'value' => self::STATUS_INACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE, self::STATUS_DELETED]],
@@ -63,25 +64,27 @@ class User extends ActiveRecord implements IdentityInterface
 	/**
 	 * @return string[]
 	 */
-	public function attributeLabels()
+	public function attributeLabels(): array
 	{
 		return [
-				'id' => 'ID',
-				'username' => 'Имя',
-				'password_hash' => 'hash',
-				'password_reset_token' => 'token',
-				'verification_token' => 'контрольный',
-				'email' => 'E-mail',
-				'auth_key' => 'токен',
-				'is_staff' => 'Сотрудник',
-				'is_admin' => 'Администратор',
-				'is_manager' => 'Менеджер',
-				'status' => 'Статус',
-				'created_at' => 'created_at',
-				'updated_at' => 'updated_at',
+			'id' => 'ID',
+			'username' => 'Имя',
+			'password_hash' => 'hash',
+			'password_reset_token' => 'token',
+			'verification_token' => 'контрольный',
+			'email' => 'E-mail',
+			'is_staff' => 'Сотрудник',
+			'is_admin' => 'Администратор',
+			'is_manager' => 'Менеджер',
+			'status' => 'Статус',
+			'created_at' => 'Создана',
+			'updated_at' => 'Изменено',
+			'auth_key' => 'Ключ',
+			'password' => 'Пароль',
+			'phone' => 'Мобильный',
+			'discount' => 'Discount',
 		];
 	}
-
 
 	/**
 	 * @param $id
@@ -117,6 +120,17 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
+     * Finds user by email
+     *
+     * @param string $email
+     * @return static|null
+     */
+    public static function findByEmail($email)
+    {
+        return static::findOne(['email' => $email, 'status' => self::STATUS_ACTIVE]);
+    }
+
+    /**
      * Finds user by password reset token
      *
      * @param string $token password reset token
@@ -143,7 +157,7 @@ class User extends ActiveRecord implements IdentityInterface
     public static function findByVerificationToken($token) {
         return static::findOne([
             'verification_token' => $token,
-            'status' => self::STATUS_INACTIVE
+//            'status' => self::STATUS_INACTIVE
         ]);
     }
 
@@ -153,8 +167,8 @@ class User extends ActiveRecord implements IdentityInterface
      * @param string $token password reset token
      * @return bool
      */
-    public static function isPasswordResetTokenValid($token)
-    {
+    public static function isPasswordResetTokenValid($token): bool
+	{
         if (empty($token)) {
             return false;
         }
@@ -175,8 +189,8 @@ class User extends ActiveRecord implements IdentityInterface
 	/**
 	 * @return string
 	 */
-    public function getAuthKey()
-    {
+    public function getAuthKey(): string
+	{
         return $this->auth_key;
     }
 
@@ -185,8 +199,8 @@ class User extends ActiveRecord implements IdentityInterface
 	 *
 	 * @return bool
 	 */
-    public function validateAuthKey($authKey)
-    {
+    public function validateAuthKey($authKey): bool
+	{
         return $this->getAuthKey() === $authKey;
     }
 
@@ -196,8 +210,8 @@ class User extends ActiveRecord implements IdentityInterface
      * @param string $password password to validate
      * @return bool if password provided is valid for current user
      */
-    public function validatePassword($password)
-    {
+    public function validatePassword($password): bool
+	{
         return Yii::$app->security->validatePassword($password, $this->password_hash);
     }
 

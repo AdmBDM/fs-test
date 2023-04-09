@@ -18,7 +18,7 @@ class m230316_163543_create_table_visit extends Migration
 		$this->createTable('{{%visit}}', [
 				'id' => $this->primaryKey(),
 				'client_id' => $this->integer()->notNull(),
-				'stuff_id' => $this->integer()->notNull(),
+				'staff_id' => $this->integer()->notNull(),
 				'visit_date' => $this->integer()->notNull(),
 				'visit_sum' => $this->float()->notNull()->defaultValue(0),
 		], $tableOptions);

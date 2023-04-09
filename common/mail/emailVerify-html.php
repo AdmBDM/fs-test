@@ -6,6 +6,7 @@ use yii\helpers\Html;
 /** @var common\models\User $user */
 
 $verifyLink = Yii::$app->urlManager->createAbsoluteUrl(['site/verify-email', 'token' => $user->verification_token]);
+$verifyLink = str_replace('backend', 'frontend', $verifyLink);
 ?>
 <div class="verify-email">
     <p>Hello <?= Html::encode($user->username) ?>,</p>

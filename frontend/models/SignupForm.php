@@ -16,11 +16,11 @@ class SignupForm extends Model
     public $password;
 
 
-    /**
-     * {@inheritdoc}
-     */
-    public function rules()
-    {
+	/**
+	 * @return array
+	 */
+    public function rules(): array
+	{
         return [
             ['username', 'trim'],
             ['username', 'required'],

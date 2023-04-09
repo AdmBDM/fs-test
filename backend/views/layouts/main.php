@@ -30,7 +30,6 @@ AppAsset::register($this);
 <header>
     <?php
     NavBar::begin([
-//        'brandLabel' => $this->title,
         'brandLabel' => 'ТестFS',
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
@@ -39,11 +38,12 @@ AppAsset::register($this);
     ]);
     $menuItems = [
         ['label' => 'Главная', 'url' => ['/site/index']],
-        ['label' => 'Пользователи', 'url' => ['/employees']],
     ];
-    if (Yii::$app->user->isGuest) {
-        $menuItems[] = ['label' => 'Вход', 'url' => ['/site/login']];
-    }
+	if (Yii::$app->user->identity->is_admin) $menuItems[] = ['label' => 'АРМ Админа', 'url' => ['/staff']];
+	if (Yii::$app->user->identity->is_admin) $menuItems[] = ['label' => 'АРМ Менеджера', 'url' => ['/visit']];
+	if (Yii::$app->user->identity->is_manager) $menuItems[] = ['label' => 'АРМ Менеджера', 'url' => ['/visit']];
+    if (Yii::$app->user->isGuest) $menuItems[] = ['label' => 'Вход', 'url' => ['/site/login']];
+
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav me-auto mb-2 mb-md-0'],
         'items' => $menuItems,
@@ -74,7 +74,8 @@ AppAsset::register($this);
 
 <footer class="footer mt-auto py-3 text-muted">
     <div class="container">
-        <p class="float-start">&copy; <?= Html::encode($this->title) ?> <?= date('Y') ?></p>
+<!--        <p class="float-start">&copy; --><?php //= Html::encode($this->title) ?><!-- --><?php //= date('Y') ?><!--</p>-->
+        <p class="float-start">&copy; <?= Html::encode('ТестFS') ?> <?= date('Y') ?></p>
         <p class="float-end"><?= Yii::powered() ?></p>
     </div>
 </footer>

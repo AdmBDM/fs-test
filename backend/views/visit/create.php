@@ -3,19 +3,18 @@
 use yii\helpers\Html;
 
 /** @var yii\web\View $this */
-/** @var common\models\User $model */
+/** @var common\models\Visit $model */
 
-$this->title = 'Новый пользователь';
-$this->params['breadcrumbs'][] = ['label' => 'Пользователи', 'url' => ['index']];
+$this->title = 'Create Visit';
+$this->params['breadcrumbs'][] = ['label' => 'Visits', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="user-create">
+<div class="visit-create">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
     <?= $this->render('_form', [
         'model' => $model,
-        'newFlag' => true,
     ]) ?>
 
 </div>
